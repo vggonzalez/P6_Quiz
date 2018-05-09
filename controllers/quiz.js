@@ -208,7 +208,7 @@ exports.randomcheck = (req, res, next) => {
     } else {
         //Como hemos fallado el juego reseteamos el array a 0
         req.session.randomPlay = [];
-        result=0;
+
     }
     res.render('quizzes/random_result', {
         result,
