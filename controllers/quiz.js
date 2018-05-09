@@ -153,3 +153,67 @@ exports.check = (req, res, next) => {
         answer
     });
 };
+
+// GET /quizzes/randomplay
+exports.randomplay = (req, res, next) => {
+
+    req.session.randomPlay = req.session.randomPlay || []; //Guardamos el estado de la sesión en un array (quizzes ya contestados)
+
+    const whereOpt={'id':{[Sequelize.Op.notIn]: req.session.randomPlay}};
+
+    models.quiz.count({where: whereOpt})
+        .then(count => {
+            if (!count) { //si ya hemos contestado todas las preguntas
+                const score=req.session.randomPlay.length; //Longitud del array con las respuestas correctas ya respondidas, es decir, puntuación
+                req.session.randomPlay = []; //reseteamos el array para la siguiente vez que se juegue
+                res.render('quizzes/random_nomore', { //Vamos a la view random_nomore pasando como parámetro score para decirle al que
+                    score: score                      //ha ganado que es una máquina
+                });
+            };
+            return models.quiz.findAll({
+                where: whereOpt,
+                offset: Math.floor(Math.random()*count),
+                limit:1
+
+            })
+        })
+        .then(quiz => {
+            res.render('quizzes/random_play', {
+                quiz: quiz[0],
+                score: req.session.randomPlay.length
+
+            });
+
+        })
+        .catch(error => {
+            next(error);
+        });
+};
+
+// GET /quizzes/randomcheck/:quizId
+exports.randomcheck = (req, res, next) => {
+
+    const {quiz, query} = req;
+
+    const answer = query.answer || "";
+
+    result= (answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim());
+    if (result) {
+        //Como es correcto añadimos el quiz ya respondido al array de preguntas respondidas
+
+
+        req.session.randomPlay.push(req.quiz.id);
+        score = req.session.randomPlay.length;
+
+    } else {
+        //Como hemos fallado el juego reseteamos el array a 0
+        req.session.randomPlay = [];
+        result=0;
+    }
+    res.render('quizzes/random_result', {
+        result,
+        answer,
+        score
+    });
+
+};
