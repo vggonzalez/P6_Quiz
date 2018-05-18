@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "start_old": "supervisor ./bin/www" ,
+    "super": "heroku local:start"
 
   },
   "engines": {
