@@ -195,6 +195,8 @@ exports.randomplay = (req, res, next) => {
 
 // GET /quizzes/randomcheck/:quizId
 exports.randomcheck = (req, res, next) => {
+    req.session.randomPlay = req.session.randomPlay || []; //Guardamos el estado de la sesión en un array (quizzes ya contestados)
+
 
     const {quiz, query} = req;
 
