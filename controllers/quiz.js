@@ -201,11 +201,11 @@ exports.randomcheck = (req, res, next) => {
     let score = req.session.randomPlay.length || 0;
     if (result) {
         //Como es correcto añadimos el quiz ya respondido al array de preguntas respondidas
+        if (req.session.randomPlay.indexOf(req.quiz.id) === -1) {
 
-
-        req.session.randomPlay.push(req.quiz.id);
-        score = req.session.randomPlay.length;
-
+            req.session.randomPlay.push(req.quiz.id);
+            score = req.session.randomPlay.length;
+        }
     } else {
         //Como hemos fallado el juego reseteamos el array a 0
         req.session.randomPlay = [];
