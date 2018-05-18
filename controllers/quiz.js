@@ -176,6 +176,9 @@ exports.randomplay = (req, res, next) => {
                 limit:1
 
             })
+                .then (quizzes => {
+                    return quizzes[0];
+            });
         })
         .then(quiz => {
             res.render('quizzes/random_play', {
