@@ -179,7 +179,7 @@ exports.randomplay = (req, res, next) => {
         })
         .then(quiz => {
             res.render('quizzes/random_play', {
-                quiz: quiz[0],
+                quiz: quiz,
                 score: req.session.randomPlay.length
 
             });
@@ -197,7 +197,7 @@ exports.randomcheck = (req, res, next) => {
 
     const answer = query.answer || "";
 
-    result= (answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim());
+    const result= (answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim());
     if (result) {
         //Como es correcto añadimos el quiz ya respondido al array de preguntas respondidas
 
