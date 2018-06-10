@@ -5,8 +5,8 @@
   "scripts": {
 
     "start": "node ./bin/www",
-    "start_old": "supervisor ./bin/www" ,
-    "super": "heroku local:start",
+    "start_old": "heroku local:start" ,
+    "super": "supervisor ./bin/www",
     "migrate_local": "sequelize db:migrate --url sqlite://$(pwd)/quiz.sqlite",
     "seed_local": "sequelize db:seed:all --url sqlite://$(pwd)/quiz.sqlite",
     "open_heroku": "heroku open",
