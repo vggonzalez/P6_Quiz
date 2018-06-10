@@ -43,7 +43,7 @@ exports.update = (req, res, next) => {
 .catch(Sequelize.ValidationError, error => {
 
     error.errors.forEach(({message}) => req.flash('error', message));
-    res.render('tips/edit', {tip, quiz}));
+    res.render('tips/edit', {tip, quiz});
 })
 .catch(error => {
         req.flash('error', 'Error editing the tip: ' + error.message);
